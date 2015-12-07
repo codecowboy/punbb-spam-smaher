@@ -74,13 +74,15 @@ var afterCheck = function(err, entry) {
     if (err) throw err;
 
     var deleteQuery = "DELETE t, p FROM topics AS t LEFT JOIN posts AS p ON t.id = p.topic_id WHERE t.id=";
-
+    var deleteUser = 'DELETE FROM users WHERE username='+entry.poster;
         console.log(deleteQuery + entry.id);
         console.log('entry is ' + entry['id']);
         connection.query(deleteQuery + entry.id, function(err,result)
         {
             afterDelete(err,result);
         });
+
+        connection.query(deleteUser + entry.id, afterDelete);
         console.log('this happens after the query');
 
 
